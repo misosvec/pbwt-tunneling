@@ -1,3 +1,5 @@
+mod pbwt;
+
 fn main() {
     let matrix = bwm(String::from("Tomorrow_and_tomorrow_and_tomorrow$"));
     print!("matrix {:?} ", matrix);
