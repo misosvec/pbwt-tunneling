@@ -24,7 +24,7 @@ fn build_prefix_and_divergence_array(haplotypes: Vec<Vec<u8>>) -> Vec<usize> {
     let mut ppa: Vec<usize> = (0..haplotypes.len()).collect();
     let mut div: Vec<usize> = vec![0; haplotypes.len()];
 
-    for k in 0..haplotypes[0].len()-1{
+    for k in 0..haplotypes[0].len() - 1 {
         let mut a: Vec<usize> = vec![];
         let mut b: Vec<usize> = vec![];
         let mut d: Vec<usize> = vec![];
@@ -65,7 +65,7 @@ fn report_long_matches(
 ) -> Vec<(usize, Vec<usize>, Vec<usize>)> {
     let mut result: Vec<(usize, Vec<usize>, Vec<usize>)> = vec![];
     let mut ppa: Vec<usize> = (0..haplotypes.len()).collect();
-    let mut div: Vec<usize> = vec![0; haplotypes.len()];
+    let mut div = vec![0; haplotypes.len()];
 
     for k in 0..haplotypes[0].len() {
         let mut a = vec![];
@@ -128,17 +128,17 @@ fn report_set_maximal_matches(
     let mut div = vec![0; haplotypes.len()];
 
     for k in 0..haplotype_length {
-        div.push((k + 1));
+        div.push(k + 1);
 
         for i in 0..haplotypes.len() {
-            let mut m = i as i32 - 1;
-            let mut n = i as u32 + 1;
+            let mut m = i as isize - 1;
+            let mut n = i + 1;
             let mut match_continues = false;
 
             if div[i] <= div[i + 1] {
                 while (m + 1) >= 0 && div[(m + 1) as usize] <= div[i] {
                     if m >= 0
-                        && haplotypes[ppa[m as usize] as usize][k] == haplotypes[ppa[i] as usize][k]
+                        && haplotypes[ppa[m as usize]][k] == haplotypes[ppa[i]][k]
                     {
                         match_continues = true;
                         break;
@@ -152,8 +152,8 @@ fn report_set_maximal_matches(
             }
 
             if div[i] >= div[i + 1] {
-                while div[n as usize] <= div[i + 1] {
-                    if haplotypes[ppa[n as usize] as usize][k] == haplotypes[ppa[i] as usize][k] {
+                while div[n] <= div[i + 1] {
+                    if haplotypes[ppa[n]][k] == haplotypes[ppa[i]][k] {
                         match_continues = true;
                         break;
                     }
@@ -165,13 +165,13 @@ fn report_set_maximal_matches(
                 continue;
             }
 
-            for j in ((m + 1) as usize)..i as usize {
+            for j in ((m + 1) as usize)..i {
                 if div[i] < k {
                     result.push((ppa[i], ppa[j], div[i], k))
                 }
             }
 
-            for j in i + 1..n as usize {
+            for j in i + 1..n {
                 if div[i + 1] < k {
                     result.push((ppa[i], ppa[j], div[i + 1], k))
                 }
