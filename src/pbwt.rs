@@ -1,6 +1,5 @@
 fn build_prefix_array(haplotypes: Vec<Vec<u8>>) -> Vec<usize> {
     let mut ppa: Vec<usize> = (0..haplotypes.len()).collect();
-
     for k in 0..haplotypes[0].len() - 1 {
         let mut a: Vec<usize> = vec![];
         let mut b: Vec<usize> = vec![];
@@ -25,30 +24,30 @@ fn build_prefix_and_divergence_array(haplotypes: Vec<Vec<u8>>) -> Vec<usize> {
     let mut div: Vec<usize> = vec![0; haplotypes.len()];
 
     for k in 0..haplotypes[0].len() - 1 {
-        let mut a: Vec<usize> = vec![];
-        let mut b: Vec<usize> = vec![];
-        let mut d: Vec<usize> = vec![];
-        let mut e: Vec<usize> = vec![];
-        let mut p: usize = k + 1;
-        let mut q: usize = k + 1;
+        let mut a = vec![];
+        let mut b = vec![];
+        let mut d = vec![];
+        let mut e = vec![];
+        let mut p = k + 1;
+        let mut q = k + 1;
 
-        for (index, match_start) in ppa.iter().zip(div.iter()) {
-            let haplotype = &haplotypes[*index];
+        for (index, match_start) in ppa.into_iter().zip(div.into_iter()) {
+            let haplotype = &haplotypes[index];
             let allele = haplotype[k];
 
-            if *match_start > p {
-                p = *match_start;
+            if match_start > p {
+                p = match_start;
             }
-            if *match_start > q {
-                q = *match_start;
+            if match_start > q {
+                q = match_start;
             }
 
             if allele == 0 {
-                a.push(*index);
+                a.push(index);
                 d.push(p);
                 p = 0;
             } else {
-                b.push(*index);
+                b.push(index);
                 e.push(q);
                 q = 0;
             }
@@ -77,34 +76,34 @@ fn report_long_matches(
         let mut ma = vec![];
         let mut mb = vec![];
 
-        for (index, match_start) in ppa.iter().zip(div.iter()) {
-            if *match_start as i32 > ((k as i32) - match_length as i32) {
+        for (index, match_start) in ppa.clone().into_iter().zip(div.clone().into_iter()) {
+            if match_start as i32 > ((k as i32) - match_length as i32) {
                 if !ma.is_empty() && !mb.is_empty() {
                     result.push((k, ma, mb));
                 }
                 ma = vec![];
                 mb = vec![];
             }
-            let haplotype = &haplotypes[*index];
+            let haplotype = &haplotypes[index];
             let allele = haplotype[k];
 
-            if *match_start > p {
-                p = *match_start;
+            if match_start > p {
+                p = match_start;
             }
-            if *match_start > q {
-                q = *match_start;
+            if match_start > q {
+                q = match_start;
             }
 
             if allele == 0 {
-                a.push(*index);
+                a.push(index);
                 d.push(p);
                 p = 0;
-                ma.push(*index);
+                ma.push(index);
             } else {
-                b.push(*index);
+                b.push(index);
                 e.push(q);
                 q = 0;
-                mb.push(*index)
+                mb.push(index)
             }
         }
         if !ma.is_empty() && !mb.is_empty() {
@@ -212,6 +211,20 @@ fn report_set_maximal_matches(
     }
     return result;
 }
+
+fn print_sorted_matrix(ppa: Vec<usize>, haplotypes: Vec<Vec<u8>>) {
+    for i in 0..ppa.len() {
+        for j in 0..haplotypes[0].len() {
+            if j == haplotypes[0].len() - 1 {
+                print!(" | {}", haplotypes[ppa[i]][j]);
+            } else {
+                print!("{} ", haplotypes[ppa[i]][j]);
+            }
+        }
+        println!();
+    }
+}
+
 
 #[cfg(test)]
 mod tests {
