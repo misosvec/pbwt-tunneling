@@ -6,7 +6,7 @@ clear:
 	rm -rf output/*
 
 generate_haplotypes:
-	cd $(MACS_PATH) && make && ./macs 10 2000 -r 0.001 -t 0.001 | grep "SITE:" | awk '{print $$NF}' > $(CURRENT_DIR)/$(filter-out $@,$(MAKECMDGOALS))
+	cd $(MACS_PATH) && make && ./macs $(SAMPLE_SIZE) $(REGION_IN_BASE_PAIRS) -r 0.001 -t 0.001 | grep "SITE:" | awk '{print $$NF}' > $(CURRENT_DIR)/$(OUTPUT_FILE)
 
 encode_haplotypes:
 	cargo run --bin encode_haplotypes $(filter-out $@,$(MAKECMDGOALS))

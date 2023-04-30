@@ -1,6 +1,6 @@
 # PBWT-Tunneling
 ## Makefile
-`generate_haplotypes output.txt`\
+`generate_haplotypes SAMPLPE_SIZE=<?> REGION_IN_BASE_PAIRS=<?> OUTPUTFILE=<?>`\
 It generates haplotypes with help of [MaCS](https://code.google.com/archive/p/macs/) project. To run this you have to download [MaCS](https://code.google.com/archive/p/macs/) and setup it. After that, you need to set `MACS_PATH` variable in the `Makefile`.
 
 `encode_haplotypes input.txt output.txt`\
