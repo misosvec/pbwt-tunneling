@@ -9,4 +9,7 @@ It encodes haplotypes from an input file and outputs it as a separate file.
 `create_wg input.txt output.wg`\
 It creates a wheeler graph from a file with help of [pfp_wg](https://github.com/miso01/pfp_wg) repository. Before running, you need to set `PFP_WG_PATH` variable in the `Makefile`.
 
+`visualize_haplotypes_sizes`\
+Outputs a graph in .png which shows the sizes of haplotypes represented as wheeler graph.
+
 
