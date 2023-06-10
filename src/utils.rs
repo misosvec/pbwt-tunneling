@@ -48,7 +48,7 @@ pub fn encode_haplotypes(haplotypes: Vec<Vec<u8>>) -> String {
                 str.push(allele.to_string().chars().last().unwrap());
                 return str;
             }).collect::<String>();
-            encoded_haplotype += "X";// !! compute_bwt function doesnt work with # character, infinite recursion probably...
+            encoded_haplotype += "a";// !! compute_bwt function doesnt work with # character, infinite recursion probably...
             return encoded_haplotype;
         }).collect();
     result.remove(result.len() - 1);
